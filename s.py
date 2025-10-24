@@ -56,4 +56,11 @@ while(running):
             print("Encoded: " + encode(string, shift))
         case False:
             print("Decoded: " + decode(string, shift))
-    
+
+    # Ask to continue or stop
+    print("More? (Enter to continue, N to stop)")
+    inp = input().upper()
+    if inp == "N":
+        running = False
+    else:
+        continue
