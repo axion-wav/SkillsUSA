@@ -2,14 +2,13 @@ def encode(string, shift):
     string = string.upper()
     encoded = []
     for char in string:
-        match char:
-            case " ":
-                encoded.append(" ")
-            case _:
-                code = ord(char) - 65
-                shifted = (code + shift) % 26
-                newChar = chr(shifted + 65)
-                encoded.append(newChar)
+        if char.isalpha():
+            code = ord(char) - 65
+            shifted = (code + shift) % 26
+            newChar = chr(shifted + 65)
+            encoded.append(newChar)
+        else:
+            encoded.append(char)
     return ''.join(encoded)
 
 def decode(string, shift):
@@ -20,8 +19,7 @@ while(running):
     shift = 0
     action = True
 
-    invalid = True
-    while(invalid):
+    while(True):
         print("Encode or Decode? (E/D) ")
         inp = input().upper()
 
@@ -29,28 +27,27 @@ while(running):
             case "E":
                 action = True
                 print("Encode selected")
-                invalid = False
                 break
             case "D":
                 action = False
                 print("Decode selected")
-                invalid = False
                 break
             case _:
                 continue
 
     while(True):
-        print("Encode or Decode? (E/D) ")
+        print("Shift amount (same when decoded/encoded)")
         inp = input()
 
-        if inp.isdigit():
+        try:
+            inp = int(inp)
             shift = inp
-            print("Shift amount confirmed: ")
+            print("Shift amount confirmed: " + str(inp))
             break
-        else:
-            continue
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
     
-    print("String to " + "Encode" if action else "Decode")
+    print("String to encode:" if action else "String to decode:")
     string = input()
         
 
@@ -58,5 +55,5 @@ while(running):
         case True:
             print("Encoded: " + encode(string, shift))
         case False:
-            print("Decoded " + decode(string, shift))
+            print("Decoded: " + decode(string, shift))
     
