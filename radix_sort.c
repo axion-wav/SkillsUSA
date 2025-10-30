@@ -1,7 +1,7 @@
 /*
  * Radix Sort Implementation in C
  * 
- * A fire radix sort with demo print
+ * A fast radix sort with demo print
  * Supports unsigned integers only
  * Base-10 implementation with O(d*n) time complexity where d is number of digits
  */
@@ -116,7 +116,7 @@ static void print_array(const unsigned int *arr, size_t n) {
  * Generate random test data with weighted distribution
  * Similar to the Python implementation
  */
-static size_t generate_test_data(unsigned int *arr, size_t max_size __attribute__((unused))) {
+static size_t generate_test_data(unsigned int *arr) {
     srand((unsigned int)time(NULL));
     
     // Generate 100 random numbers with weighted digit distribution
@@ -151,9 +151,10 @@ static size_t generate_test_data(unsigned int *arr, size_t max_size __attribute_
         }
         max_val -= 1;
         
-        // Generate random number in range
+        // Generate random number in range (avoiding overflow)
         if (max_val > min_val) {
-            arr[i] = min_val + (rand() % (max_val - min_val + 1));
+            unsigned int range = max_val - min_val;
+            arr[i] = min_val + (rand() % (range + 1));
         } else {
             arr[i] = min_val;
         }
@@ -170,7 +171,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    size_t n = generate_test_data(arr, MAX_ARRAY_SIZE);
+    size_t n = generate_test_data(arr);
 
     printf("UNSORTED: \n");
     print_array(arr, n);
