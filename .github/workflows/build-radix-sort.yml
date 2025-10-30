@@ -1,0 +1,44 @@
+name: Build Radix Sort C
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'radix_sort.c'
+      - '.github/workflows/build-radix-sort.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'radix_sort.c'
+      - '.github/workflows/build-radix-sort.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup GCC
+      run: |
+        gcc --version
+        
+    - name: Compile radix_sort.c with -O3 optimization
+      run: |
+        gcc -O3 -Wall -Wextra -std=c99 -o radix_sort radix_sort.c
+        
+    - name: Test the executable
+      run: |
+        ./radix_sort
+        
+    - name: Upload executable as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: radix_sort-executable
+        path: radix_sort
+        retention-days: 30

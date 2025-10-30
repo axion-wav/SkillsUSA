@@ -1,0 +1,21 @@
+# Compiled executables
+radix_sort
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C/C++ build artifacts
+*.a
+*.so
+*.dylib
+
+# CodeQL artifacts
+_codeql_detected_source_root
